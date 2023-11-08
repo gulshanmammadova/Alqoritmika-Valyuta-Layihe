@@ -12,53 +12,85 @@ let b=document.querySelector('button.active')
 let baseCurrency = 'RUB'; 
 let targetCurrency = 'USD'; 
 // const amount = 100; 
-let buttonContainer = document.querySelectorAll(".btn-all-1 button");
-let buttonContainer2 = document.querySelectorAll(".btn-all-2 button");
+let buttons = document.querySelectorAll(".btn-all-1 button");
+let buttons2 = document.querySelectorAll(".btn-all-2 button");
 
-buttonContainer.forEach(f=>{
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+      buttons.forEach(btn => {
+          btn.classList.remove('active');
+      });
 
-    
-   
-    f.addEventListener("click", function(event) {
-      
+      button.classList.add('active');
+      baseCurrency=button.innerHTML.trim();
+          inp1.value=''
+          inp2.value=''
+  });
+});
 
-        this.classList.add('click-btn')  
-        this.classList.add('active')
-        console.log(this.innerHTML.trim())
-        
-       f.classList.remove('active') 
+buttons2.forEach(button => {
+  button.addEventListener('click', () => {
+      buttons2.forEach(btn => {
+          btn.classList.remove('active2');
+      });
 
-        baseCurrency=this.innerHTML.trim();
-        inp1.value=''
-        inp2.value=''
+      button.classList.add('active2');
+      targetCurrency=button.innerHTML.trim();
+      console.log(targetCurrency)
+          inp1.value=''
+          inp2.value=''
+  });
+});
+inp2.addEventListener('change',async (e)=>{
+  if(parseFloat(inp2.value) === 0 ||inp2.value.trim() === ''){
+    inp1.value=0
+    oneFrom.innerHTML=baseCurrency;
+    oneTo.innerHTML=data1.value/inp2.target.value;
+    toValuta.innerHTML=targetCurrency;
 
-    });
-   
-    
-})
-buttonContainer2.forEach(v=>{
+  }
+  else{
+    const newApiUrl = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${e.target.value}`;
 
-    
-   
-    v.addEventListener("click", function(event) {
-       let clickedButton2 = event.target;
+    await fetch(`${newApiUrl}`)
+      .then(response => response.json())
+      .then(data21 => {
+        console.log(data21)
 
-        clickedButton2.classList.add('click-btn')
-        clickedButton2.classList.add('click-btn')
-        
-        
-        console.log(clickedButton2.innerHTML.trim())
-        
-       v.classList.remove('active') 
-        clickedButton2.classList.add('active')
+        inp1.value=data21.value.toFixed(4)
+        const NewApiUrl1 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
 
-        targetCurrency=clickedButton2.innerHTML.trim();
-        inp1.value=''
-        inp2.value=''
+         fetch(`${newApiUrl}`)
+          .then(response => response.json())
+          .then(data22 => {
+            oneFrom.innerHTML=baseCurrency;
+            oneTo.innerHTML=data22.value.toFixed(4);
+            toValuta.innerHTML=targetCurrency;
+           
 
-    });
-   
-    
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          }); 
+          const apiUrl22 = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
+
+          fetch(`${apiUrl22}`)
+           .then(response => response.json())
+           .then(data221 => {
+            oneFrom2.innerHTML=targetCurrency;
+            oneTo2.innerHTML=data221.value.toFixed(4);
+            toValuta2.innerHTML=baseCurrency;
+           
+
+           })
+           .catch(error => {
+             console.error('Error:', error);
+           }); 
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      }); 
+}
 })
 inp1.addEventListener('change',async (e)=>{
    
@@ -118,3 +150,4 @@ inp1.addEventListener('change',async (e)=>{
 
 })
 
+// 0 olanda islemir
