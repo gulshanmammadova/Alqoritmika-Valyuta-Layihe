@@ -26,8 +26,8 @@ buttons.forEach((button) => {
 
     button.classList.add("active");
     baseCurrency = button.innerHTML.trim();
-    inp1.value = 0;
-    inp2.value = 0;
+    inp1.value = '';
+    inp2.value = '';
     const apiUrl = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
 
     fetch(`${apiUrl}`)
@@ -64,8 +64,8 @@ buttons2.forEach((button) => {
     button.classList.add("active2");
     targetCurrency = button.innerHTML.trim();
     console.log(targetCurrency);
-    inp1.value = 0;
-    inp2.value = 0;
+    inp1.value = '';
+    inp2.value = '';
     const apiUrl = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
 
     fetch(`${apiUrl}`)
