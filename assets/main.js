@@ -216,12 +216,12 @@ const onChange2 = async (e) => {
       });
   } else {
     let apiUrlInp2 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${e.target.value}`;
-console.log(apiUrlInp2)
+
     await fetch(`${apiUrlInp2}`)
       .then((response) => response.json())
       .then((datai2) => {
 
-console.log(datai2.value.toFixed(4))
+
 
         inp1.value = datai2.value.toFixed(4);
         let apiUrl21 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
@@ -258,8 +258,3 @@ console.log(datai2.value.toFixed(4))
       });
   }
 };
-// 1cide sagda 0 yaz+
-
-//  defsultda asagini silmek duzdu?
-//button  deyisende asagida qalan evvelkinin sozleri+
-// 12 usd usd ye
