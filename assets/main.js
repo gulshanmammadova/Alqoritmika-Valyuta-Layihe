@@ -11,12 +11,42 @@ let oneFrom2 = document.querySelector("span.one-from2");
 let b = document.querySelector("button.active");
 let baseCurrency = "RUB";
 let targetCurrency = "USD";
-let block = document.querySelector(".have .d-none");
-let block2 = document.querySelector(".want-to-buy .d-none");
-
-// const amount = 100;
+let warning=document.querySelector('.info')
 let buttons = document.querySelectorAll(".btn-all-1 button");
 let buttons2 = document.querySelectorAll(".btn-all-2 button");
+let w=document.querySelector('.val-setting')
+
+let default1 = `${apiUrl1}?api_key=${apiKey}&from=USD&to=RUB&amount=${1}`;
+
+fetch(`${default1}`)
+  .then((response) => response.json())
+  .then((defdata) => {
+    oneFrom.innerHTML = targetCurrency;
+    oneTo.innerHTML = defdata.value.toFixed(4);
+    toValuta.innerHTML = baseCurrency;
+    warning.classList.remove('d-none')
+
+  })
+  .catch((error) => {
+    warning.classList.add('d-none')
+
+  });
+  const apiUrlnewestd = `${apiUrl1}?api_key=${apiKey}&from=RUB&to=USD&amount=${1}`;
+
+    fetch(`${apiUrlnewestd}`)
+      .then((response) => response.json())
+      .then((dat) => {
+        oneFrom2.innerHTML = baseCurrency;
+        oneTo2.innerHTML = dat.value.toFixed(4);
+        toValuta2.innerHTML = targetCurrency;
+        warning.classList.add('d-none')
+
+
+      })
+      .catch((error) => {
+        warning.classList.remove('d-none')
+
+      });
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -27,7 +57,17 @@ buttons.forEach((button) => {
     button.classList.add("active");
     baseCurrency = button.innerHTML.trim();
     inp1.value = '';
-    inp2.value = '';
+    let apiUrlForStatic = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${inp2.value}`;
+
+    fetch(`${apiUrlForStatic}`)
+      .then((response) => response.json())
+      .then((datax) => {
+       inp1.value = datax.value.toFixed(4);
+
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     const apiUrl = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
 
     fetch(`${apiUrl}`)
@@ -63,9 +103,20 @@ buttons2.forEach((button) => {
 
     button.classList.add("active2");
     targetCurrency = button.innerHTML.trim();
-    console.log(targetCurrency);
-    inp1.value = '';
+   
     inp2.value = '';
+    let apiUrlForStatic = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${inp1.value}`;
+
+    fetch(`${apiUrlForStatic}`)
+      .then((response) => response.json())
+      .then((datax) => {
+       inp2.value = datax.value.toFixed(4);
+      
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
     const apiUrl = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
 
     fetch(`${apiUrl}`)
@@ -95,56 +146,52 @@ buttons2.forEach((button) => {
   });
 
 
-const onChange1 = async (e) => {
-  block2.classList.remove("d-none");
-  block.classList.remove("d-none");
+  const onChange1 = async (e) => {
 
-  if (parseFloat(inp1.value) <= 0 || inp1.value.trim() === "") {
-    const apiUrlForZero = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
-    inp2.value = 0;
+  
+    if (parseFloat(inp1.value) <= 0 || inp1.value.trim() === "" || inp1==0 ) {
+      inp2.value = 0;
 
-    fetch(`${apiUrlForZero}`)
-      .then((response) => response.json())
-      .then((dataForZero) => {
-        oneFrom2.innerHTML = baseCurrency;
-        oneTo2.innerHTML = dataForZero.value.toFixed(4);
-        toValuta2.innerHTML = targetCurrency;
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    const apiUrlForZero2 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
+      const apiUrlForZero2 = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
 
-    fetch(`${apiUrlForZero2}`)
-      .then((response) => response.json())
-      .then((dataForZero2) => {
-        oneFrom.innerHTML = targetCurrency;
-        oneTo.innerHTML = dataForZero2.value.toFixed(4);
-        toValuta.innerHTML = baseCurrency;
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  } else {
-    const apiUrl = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${e.target.value}`;
+      fetch(`${apiUrlForZero2}`)
+        .then((response) => response.json())
+        .then((dataForZero2) => {
+          oneFrom2.innerHTML = baseCurrency;
+          oneTo2.innerHTML = dataForZero2.value.toFixed(4);
+          toValuta2.innerHTML = targetCurrency;
+      warning.classList.add('d-none')
 
-    await fetch(`${apiUrl}`)
-      .then((response) => response.json())
-      .then((data) => {
-        inp2.value = data.value.toFixed(4);
-      })
-      .catch((error) => {
-        alert("Sorry, there is a problem with the internet. Please try again.");
-      });
-  }
-};
+        })
+        .catch((error) => {
+          warning.classList.remove('d-none')
+
+        });
+      const apiUrl8 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
+  
+    } else {
+      let apiUrlinp2 = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${e.target.value}`;
+  
+      await fetch(`${apiUrlinp2}`)
+        .then((response) => response.json())
+        .then((datai2) => {
+          inp2.value = datai2.value.toFixed(4);
+      warning.classList.add('d-none')
+        
+        })
+        .catch((error) => {
+       warning.innerHTML.remove('d-none')
+        val-setting.classList.add('.d-none')
+
+        });
+    }
+  };
 const onChange2 = async (e) => {
-  block2.classList.remove("d-none");
-  block.classList.remove("d-none");
+
 
   if (parseFloat(inp2.value) <= 0 || inp2.value.trim() === "") {
     inp1.value = 0;
-    const apiUrlForZero2 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
+    let apiUrlForZero2 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
 
     fetch(`${apiUrlForZero2}`)
       .then((response) => response.json())
@@ -156,26 +203,29 @@ const onChange2 = async (e) => {
       .catch((error) => {
         console.error("Error:", error);
       });
-    const apiUrlForZero21 = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
+      let apiUrlForZero21 = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
 
     fetch(`${apiUrlForZero21}`)
       .then((response) => response.json())
       .then((dataForZero2) => {
         oneFrom2.innerHTML = targetCurrency;
-        oneTo2.innerHTML = dataForZero21.value.toFixed(4);
+        oneTo2.innerHTML = dataForZero2.value.toFixed(4);
         toValuta2.innerHTML = baseCurrency;
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   } else {
-    const apiUrlInp2 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${e.target.value}`;
-
+    let apiUrlInp2 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${e.target.value}`;
+console.log(apiUrlInp2)
     await fetch(`${apiUrlInp2}`)
       .then((response) => response.json())
       .then((datai2) => {
+
+console.log(datai2.value.toFixed(4))
+
         inp1.value = datai2.value.toFixed(4);
-        const apiUrl21 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
+        let apiUrl21 = `${apiUrl1}?api_key=${apiKey}&from=${targetCurrency}&to=${baseCurrency}&amount=${1}`;
 
         fetch(`${apiUrl21}`)
           .then((response) => response.json())
@@ -187,7 +237,7 @@ const onChange2 = async (e) => {
           .catch((error) => {
             console.error("Error:", error);
           });
-        const apiUrlinp2 = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
+          let apiUrlinp2 = `${apiUrl1}?api_key=${apiKey}&from=${baseCurrency}&to=${targetCurrency}&amount=${1}`;
 
         fetch(`${apiUrlinp2}`)
           .then((response) => response.json())
@@ -195,13 +245,17 @@ const onChange2 = async (e) => {
             oneFrom2.innerHTML = targetCurrency;
             oneTo2.innerHTML = datainp22.value.toFixed(4);
             toValuta2.innerHTML = baseCurrency;
+    warning.classList.add('d-none')
+
           })
           .catch((error) => {
             console.error("Error:", error);
           });
       })
       .catch((error) => {
-        alert("Sorry, there is a problem with the internet. Please try again.");
+        warning.classList.remove('d-none')
+        val-setting.classList.add('d-none')
+
       });
   }
 };

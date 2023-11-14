@@ -40,9 +40,8 @@
 
                     </div>
                     <div class="inps-setting first-amount ">
-                        <input type="number" name="from" id="" class="inp1" value="0" min="0" oninput="onChange1(event)">
-                        <p class="val-setting d-none">1 <span class="one-from2"></span>  =  <span class="one-to2"></span>  <span class="to-valuta2"></span></p>
-               
+                        <input type="number" name="from" id="" class="inp1"  min="0" oninput="onChange1(event)" placeholder="0">
+                        <p class="val-setting ">1 <span class="one-from2"></span>  =  <span class="one-to2"></span>  <span class="to-valuta2"></span></p>
                     </div>
                 </div>
                 <div class="want-to-buy w-50">
@@ -58,16 +57,17 @@
 
                     </div>
                     <div class="inps-setting second-amount ">
-                        <input type="number" name="from" id="" class="inp2" min="0" value="0" oninput="onChange2(event)">
-                        <p class="val-setting d-none">1 <span class="one-from"></span>  =  <span class="one-to"></span>  <span class="to-valuta"></span></p>
+                        <input type="number" name="from" id="" class="inp2" min="0"  onkeyup="onChange2(event)"  placeholder="0">
+                        <p class="val-setting ">1 <span class="one-from"></span>  =  <span class="one-to"></span>  <span class="to-valuta"></span></p>
 
                     </div>
                 </div>
 
             </div>
+            <p style="color: red; font-style: italic; font-size: 32px; margin: 20px 20px;" class="info d-none">Please try again.</p>
+
           </div>
         </section>
-        
     </main>
     <script src="./assets/main.js"></script>
 </body>
