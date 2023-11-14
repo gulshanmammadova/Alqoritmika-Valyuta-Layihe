@@ -24,11 +24,10 @@ fetch(`${default1}`)
     oneFrom.innerHTML = targetCurrency;
     oneTo.innerHTML = defdata.value.toFixed(4);
     toValuta.innerHTML = baseCurrency;
-    warning.classList.remove('d-none')
 
   })
   .catch((error) => {
-    warning.classList.add('d-none')
+    console.error('Error'+ error)
 
   });
   const apiUrlnewestd = `${apiUrl1}?api_key=${apiKey}&from=RUB&to=USD&amount=${1}`;
